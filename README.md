@@ -1,5 +1,7 @@
 # bw-cli debian package
 
+Package built contains repacked https://bitwarden.com/download/?app=cli&platform=linux binary, man page and zsh completion.
+
 `bw` is a command-line interface tool for interacting with [Bitwarden](https://bitwarden.com/), a secure password manager.
 
 ## Features
@@ -12,7 +14,6 @@
 ## Installation
 
 ```bash
-    
 sudo apt install lsb-release wget apt-transport-https bzip2
 
 wget -qO- https://repo.vitexsoftware.com/keyring.gpg | sudo tee /etc/apt/trusted.gpg.d/vitexsoftware.gpg

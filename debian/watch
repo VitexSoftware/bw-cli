@@ -1,0 +1,4 @@
+# Bitwarden CLI watch file
+version=4
+opts=downloadurlmangle=s/\?app=cli&platform=linux//,filenamemangle=s/.*/bw-linux-latest.zip/ \
+  https://bitwarden.com/download/?app=cli&platform=linux .*

@@ -1,0 +1,9 @@
+debian/bw-cli/
+debian/bw-cli.substvars
+debian/debhelper-build-stamp
+debian/.debhelper/
+
+usr/bin/bw
+debian/bw-cli.debhelper.log
+debian/bw-cli.postrm.debhelper
+debian/files

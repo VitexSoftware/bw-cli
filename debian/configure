@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+. /usr/share/debconf/confmodule
+
+db_input high bw-cli/server-uri || true
+db_go || true
+
+db_get bw-cli/server-uri
+SERVER_URI="$RET"
+
+if [ -n "$SERVER_URI" ]; then
+    echo "BITWARDEN_SERVER=\"$SERVER_URI\"" > /etc/default/bw-cli
+fi
+
+exit 0

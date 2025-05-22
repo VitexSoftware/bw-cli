@@ -1,0 +1,3 @@
+Template: bw-cli/server-uri
+Type: string
+_Description: Enter the Bitwarden server URI (leave blank for default)

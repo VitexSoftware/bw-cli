@@ -1,0 +1,165 @@
+.TH BW 1 "May 2025" "Bitwarden CLI" "User Commands"
+.SH NAME
+bw \- Bitwarden CLI client
+.SH SYNOPSIS
+.B bw
+[options] [command]
+.SH DESCRIPTION
+Bitwarden CLI (bw) is a command-line interface for managing your Bitwarden vault and secrets.
+
+.SH OPTIONS
+.TP
+.B --pretty
+Format output. JSON is tabbed with two spaces.
+.TP
+.B --raw
+Return raw output instead of a descriptive message.
+.TP
+.B --response
+Return a JSON formatted version of response output.
+.TP
+.B --cleanexit
+Exit with a success exit code (0) unless an error is thrown.
+.TP
+.B --quiet
+Don't return anything to stdout.
+.TP
+.B --nointeraction
+Do not prompt for interactive user input.
+.TP
+.B --session <session>
+Pass session key instead of reading from env.
+.TP
+.B -v, --version
+Output the version number.
+.TP
+.B -h, --help
+Display help for command.
+
+.SH COMMANDS
+.TP
+.B sdk-version
+Print the SDK version.
+.TP
+.B login [options] [email] [password]
+Log into a user account.
+.TP
+.B logout
+Log out of the current user account.
+.TP
+.B lock
+Lock the vault and destroy active session keys.
+.TP
+.B unlock [options] [password]
+Unlock the vault and return a new session key.
+.TP
+.B sync [options]
+Pull the latest vault data from server.
+.TP
+.B generate [options]
+Generate a password/passphrase.
+.TP
+.B encode
+Base 64 encode stdin.
+.TP
+.B config [options] <setting> [value]
+Configure CLI settings.
+.TP
+.B update
+Check for updates.
+.TP
+.B completion [options]
+Generate shell completions.
+.TP
+.B status
+Show server, last sync, user information, and vault status.
+.TP
+.B list [options] <object>
+List an array of objects from the vault.
+.TP
+.B get [options] <object> <id>
+Get an object from the vault.
+.TP
+.B create [options] <object> [encodedJson]
+Create an object in the vault.
+.TP
+.B edit [options] <object> <id> [encodedJson]
+Edit an object from the vault.
+.TP
+.B delete [options] <object> <id>
+Delete an object from the vault.
+.TP
+.B restore <object> <id>
+Restores an object from the trash.
+.TP
+.B move <id> <organizationId> [encodedJson]
+Move an item to an organization.
+.TP
+.B confirm [options] <object> <id>
+Confirm an object to the organization.
+.TP
+.B import [options] [format] [input]
+Import vault data from a file.
+.TP
+.B export [options]
+Export vault data to a CSV, JSON or ZIP file.
+.TP
+.B share <id> <organizationId> [encodedJson]
+--DEPRECATED-- Move an item to an organization.
+.TP
+.B send [options] <data>
+Work with Bitwarden sends. A Send can be quickly created using this command or subcommands can be used to fine-tune the Send.
+.TP
+.B receive [options] <url>
+Access a Bitwarden Send from a url.
+.TP
+.B device-approval
+Manage device approval requests sent to organizations that use SSO with trusted devices.
+.TP
+.B serve [options]
+Start a RESTful API webserver.
+.TP
+.B help [command]
+Display help for command.
+
+.SH EXAMPLES
+.TP
+.B bw login
+.TP
+.B bw lock
+.TP
+.B bw unlock myPassword321
+.TP
+.B bw list --help
+.TP
+.B bw list items --search google
+.TP
+.B bw get item 99ee88d2-6046-4ea7-92c2-acac464b1412
+.TP
+.B bw get password google.com
+.TP
+.B echo '{"name":"My Folder"}' | bw encode
+.TP
+.B bw create folder eyJuYW1lIjoiTXkgRm9sZGVyIn0K
+.TP
+.B bw edit folder c7c7b60b-9c61-40f2-8ccd-36c49595ed72 eyJuYW1lIjoiTXkgRm9sZGVyMiJ9Cg==
+.TP
+.B bw delete item 99ee88d2-6046-4ea7-92c2-acac464b1412
+.TP
+.B bw generate -lusn --length 18
+.TP
+.B bw config server https://bitwarden.example.com
+.TP
+.B bw send -f ./file.ext
+.TP
+.B bw send "text to send"
+.TP
+.B echo "text to send" | bw send
+.TP
+.B bw receive https://vault.bitwarden.com/#/send/rg3iuoS_Akm2gqy6ADRHmg/Ht7dYjsqjmgqUM3rjzZDSQ
+
+.SH SEE ALSO
+Bitwarden documentation: https://bitwarden.com/help/cli/
+
+.SH AUTHOR
+Bitwarden, Inc.

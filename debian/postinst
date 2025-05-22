@@ -1,0 +1,32 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+configure)
+    if [ -f /etc/default/bw-cli ]; then
+        . /etc/default/bw-cli
+        if [ -n "$BITWARDEN_SERVER" ]; then
+            /usr/bin/bw config server "$BITWARDEN_SERVER"
+        fi
+    fi
+
+    # Install zsh completion if available
+    if [ -x /usr/bin/bw ]; then
+        mkdir -p /usr/share/zsh/vendor-completions
+        /usr/bin/bw completion --shell zsh | tee /usr/share/zsh/vendor-completions/_bw > /dev/null
+    fi
+
+    ;;
+
+abort-upgrade | abort-remove | abort-deconfigure) ;;
+
+*)
+    echo "postinst called with unknown argument \`$1'" >&2
+    exit 1
+    ;;
+esac
+
+
+#DEBHELPER#
+
+exit 0

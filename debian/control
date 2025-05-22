@@ -1,0 +1,15 @@
+Source: bw-cli
+Section: utils
+Priority: optional
+Maintainer: Vítězslav Dvořák <info@vitexsoftware.cz>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.1
+Homepage: https://bitwarden.com/help/cli/
+Rules-Requires-Root: no
+
+Package: bw-cli
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Bitwarden CLI client
+ Bitwarden CLI (bw) is a command-line interface for managing your Bitwarden vault and secrets.

@@ -1,0 +1,4 @@
+#!/bin/sh
+# prerm script for bw-cli
+# (empty, required by lintian)
+exit 0

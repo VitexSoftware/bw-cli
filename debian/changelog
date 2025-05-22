@@ -1,0 +1,6 @@
+bw-cli (2025.4.0) UNRELEASED; urgency=low
+
+  * Initial release. Closes: #nnnn
+    <nnnn is the bug number of your ITP>
+
+ -- Vítězslav Dvořák <info@vitexsoftware.cz>  Thu, 22 May 2025 22:55:32 +0200

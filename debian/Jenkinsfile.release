@@ -14,6 +14,7 @@ properties([
 node() {
     ansiColor('xterm') {
         stage('SCM Checkout') {
+            sh 'sudo chown -R jenkins:jenkins . || true'
             checkout scm
         }
     }
@@ -34,8 +35,9 @@ distributions.each { distro ->
         node {
             ansiColor('xterm') {
                 stage('Checkout ' + distroName) {
+                    sh 'sudo chown -R jenkins:jenkins . || true'
                     checkout scm
-                    def imageName = vendor + '/' + imagePrefix + distroCode + ':latest'
+                    def imageName = vendor + '/' + imagePrefix + dist[0] + ':' + distroCode
                     buildImage = docker.image(imageName)
                     sh 'git checkout debian/changelog'
                     def version = sh (
@@ -45,11 +47,12 @@ distributions.each { distro ->
                     buildVer = version + '.' + env.BUILD_NUMBER  + '~' + distroCode
                 }
                 stage('Build ' + distroName) {
-                    buildImage.inside {
+                    buildImage.inside('--ipc=host') {
                         sh 'dch -b -v ' + buildVer  + ' "' + env.BUILD_TAG  + '"'
                         sh 'sudo apt-get update --allow-releaseinfo-change'
-                        sh 'sudo chown jenkins:jenkins ..'
-                        sh 'debuild-pbuilder  -i -us -uc -b'
+                        sh 'sudo chown -R jenkins:jenkins . ..'
+                        sh 'sudo rm -rf debian/$(dpkg-parsechangelog --show-field Source)/ debian/.debhelper/ debian/tmp/'
+                        sh 'debuild-pbuilder -r"sudo -E" -i -us -uc -b'
                         sh 'mkdir -p $WORKSPACE/dist/debian/ ; rm -rf $WORKSPACE/dist/debian/* ; for deb in $(cat debian/files | awk \'{print $1}\'); do mv "../$deb" $WORKSPACE/dist/debian/; done'
                         artifacts = sh (
                             script: "cat debian/files | awk '{print \$1}'",

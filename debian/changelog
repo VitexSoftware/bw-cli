@@ -1,6 +1,11 @@
-bw-cli (2025.4.0) UNRELEASED; urgency=low
+bw-cli (2026.6.0) bookworm; urgency=low
 
-  * Initial release. Closes: #nnnn
-    <nnnn is the bug number of your ITP>
+  * New upstream release 2026.6.0
+
+ -- Vítězslav Dvořák <info@vitexsoftware.cz>  Mon, 29 Jun 2026 02:11:45 +0200
+
+bw-cli (2025.4.0) bookworm; urgency=low
+
+  * Initial release.
 
  -- Vítězslav Dvořák <info@vitexsoftware.cz>  Thu, 22 May 2025 22:55:32 +0200

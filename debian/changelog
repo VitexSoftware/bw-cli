@@ -1,3 +1,12 @@
+bw-cli (2026.8.0) bookworm; urgency=low
+
+  * Fetch the upstream binary from GitHub releases instead of
+    bitwarden.com/download, which only ever serves amd64 - this adds
+    arm64 support (Raspberry Pi and other arm64 hosts).
+  * New upstream release 2026.8.0
+
+ -- Vítězslav Dvořák <info@vitexsoftware.cz>  Wed, 09 Sep 2026 12:45:00 +0200
+
 bw-cli (2026.6.0) bookworm; urgency=low
 
   * New upstream release 2026.6.0

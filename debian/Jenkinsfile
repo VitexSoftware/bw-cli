@@ -48,6 +48,7 @@ distributions.each { distro ->
         node {
             ansiColor('xterm') {
                 stage('Checkout ' + distroName) {
+                    deleteDir()
                     checkout scm
                     def imageName = vendor + '/' + distro
                     buildImage = docker.image(imageName)
@@ -176,6 +177,7 @@ armDistributions.each { distro ->
         node('arm64') {
             ansiColor('xterm') {
                 stage('Checkout ' + distroName + ' arm64') {
+                    deleteDir()
                     checkout scm
                     def imageName = vendor + '/' + distro
                     buildImage = docker.image(imageName)

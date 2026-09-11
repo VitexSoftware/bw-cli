@@ -2,10 +2,8 @@
 
 // Current version of this Pipeline https://github.com/VitexSoftware/BuildImages/blob/main/Test/Jenkinsfile
 
-// debian:forky disabled: Forky is still unstable/research-only.
-// The full Debian package ecosystem is not yet available for Forky.
-// Re-enable once the stack builds cleanly for Forky.
-String[] distributions = ['debian:bookworm', 'debian:trixie', 'ubuntu:jammy', 'ubuntu:noble']
+String[] distributions = ['debian:bookworm', 'debian:trixie', 'ubuntu:jammy', 'ubuntu:noble',
+            'debian:forky',]
 // arm64 (Raspberry Pi fleet) only needs trixie for now - built on the
 // arm64-labeled agents (fallgold, boys). vitexsoftware/<distro> images are
 // multi-arch, so the same image reference resolves to its arm64 manifest
@@ -27,6 +25,7 @@ properties([
 node() {
     ansiColor('xterm') {
         stage('SCM Checkout') {
+            sh 'sudo chown -R jenkins:jenkins . 2>/dev/null || true'
             checkout scm
         }
     }
@@ -52,6 +51,7 @@ distributions.each { distro ->
                     // this workspace mount, so empty the directory in place
                     // instead of removing and recreating it.
                     sh 'find . -mindepth 1 -delete 2>/dev/null || true'
+                    sh 'sudo chown -R jenkins:jenkins . 2>/dev/null || true'
                     checkout scm
                     def imageName = vendor + '/' + distro
                     buildImage = docker.image(imageName)
@@ -184,6 +184,7 @@ armDistributions.each { distro ->
                     // this workspace mount, so empty the directory in place
                     // instead of removing and recreating it.
                     sh 'find . -mindepth 1 -delete 2>/dev/null || true'
+                    sh 'sudo chown -R jenkins:jenkins . 2>/dev/null || true'
                     checkout scm
                     def imageName = vendor + '/' + distro
                     buildImage = docker.image(imageName)

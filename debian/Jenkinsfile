@@ -44,7 +44,13 @@ distributions.each { distro ->
         def artifacts = []
         def buildVer = ''
 
+        // /var/lib/jenkins/workspace is NFS-shared between the built-in
+        // node and the SSH drones, so two branches on different nodes can
+        // resolve to the identical physical directory unless each gets a
+        // name unique across the whole build matrix (Jenkins' @N workspace
+        // suffixing only disambiguates same-node reuse).
         node('amd64') {
+          ws('bw-cli-amd64-' + distroCode) {
             ansiColor('xterm') {
                 stage('Checkout ' + distroName) {
                     // deleteDir() races with NFS's delayed unlink propagation on
@@ -160,6 +166,7 @@ distributions.each { distro ->
                     }
                 }
             }
+          }
         }
     }
 }
@@ -178,6 +185,7 @@ armDistributions.each { distro ->
         def buildVer = ''
 
         node('arm64') {
+          ws('bw-cli-arm64-' + distroCode) {
             ansiColor('xterm') {
                 stage('Checkout ' + distroName + ' arm64') {
                     // deleteDir() races with NFS's delayed unlink propagation on
@@ -262,6 +270,7 @@ armDistributions.each { distro ->
                     }
                 }
             }
+          }
         }
     }
 }

@@ -44,7 +44,7 @@ distributions.each { distro ->
         def artifacts = []
         def buildVer = ''
 
-        node {
+        node('amd64') {
             ansiColor('xterm') {
                 stage('Checkout ' + distroName) {
                     // deleteDir() races with NFS's delayed unlink propagation on
@@ -268,7 +268,7 @@ armDistributions.each { distro ->
 
 parallel branches
 
-node {
+node('aptly') {
     stage('Publish to Aptly') {
 	publishDebToAptly()
     }

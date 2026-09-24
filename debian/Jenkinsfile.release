@@ -27,6 +27,10 @@ node() {
         stage('SCM Checkout') {
             sh 'sudo chown -R jenkins:jenkins . || true'
             checkout scm
+            // Checked out once here; every parallel branch below unstashes
+            // this instead of hitting GitHub again, so a wide build matrix
+            // costs one clone instead of one per branch.
+            stash name: 'src', useDefaultExcludes: false
         }
     }
 }
@@ -53,7 +57,7 @@ distributions.each { distro ->
             ansiColor('xterm') {
                 stage('Checkout ' + distroName) {
                     sh 'sudo chown -R jenkins:jenkins . || true'
-                    checkout scm
+                    unstash 'src'
                     def imageName = vendor + '/' + imagePrefix + dist[0] + ':' + distroCode
                     buildImage = docker.image(imageName)
                     sh 'git checkout debian/changelog'
@@ -139,7 +143,7 @@ armDistributions.each { distro ->
             ansiColor('xterm') {
                 stage('Checkout ' + distroName + ' arm64') {
                     sh 'sudo chown -R jenkins:jenkins . || true'
-                    checkout scm
+                    unstash 'src'
                     def imageName = vendor + '/' + imagePrefix + dist[0] + ':' + distroCode
                     buildImage = docker.image(imageName)
                     sh 'git checkout debian/changelog'

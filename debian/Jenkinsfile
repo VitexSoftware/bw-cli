@@ -5,10 +5,13 @@
 String[] distributions = ['debian:bookworm', 'debian:trixie', 'ubuntu:jammy', 'ubuntu:noble',
             'debian:forky',]
 // arm64 (Raspberry Pi fleet) only needs trixie for now - built on the
-// arm64-labeled agents (fallgold, boys). vitexsoftware/<distro> images are
-// multi-arch, so the same image reference resolves to its arm64 manifest
-// when pulled on an arm64 node.
-String[] armDistributions = ['debian:trixie']
+// arm64-labeled agents (fallgold, boys, tulameen). Those agents are offline,
+// and `parallel` waits for every branch before Publish to Aptly, so listing
+// trixie here queues the job forever and never publishes amd64. Leave this
+// empty until an arm64 agent is online again; Aptly removal is per
+// architecture, so the already-published trixie arm64 package stays in the
+// repo. Restore with: String[] armDistributions = ['debian:trixie']
+String[] armDistributions = []
 
 String vendor = 'vitexsoftware'
 //String distroFamily = ''

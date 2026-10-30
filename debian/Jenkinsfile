@@ -62,9 +62,11 @@ distributions.each { distro ->
                 stage('Checkout ' + distroName) {
                     // deleteDir() races with NFS's delayed unlink propagation on
                     // this workspace mount, so empty the directory in place
-                    // instead of removing and recreating it.
-                    sh 'find . -mindepth 1 -delete 2>/dev/null || true'
+                    // instead of removing and recreating it. Chown first so
+                    // root-owned leftovers are removable; .git pack files from
+                    // a prior stash are mode 0444 and block unstash overwrite.
                     sh 'sudo chown -R jenkins:jenkins . 2>/dev/null || true'
+                    sh 'find . -mindepth 1 -delete 2>/dev/null || true'
                     unstash 'src'
                     def imageName = vendor + '/' + distro
                     buildImage = docker.image(imageName)
@@ -197,9 +199,11 @@ armDistributions.each { distro ->
                 stage('Checkout ' + distroName + ' arm64') {
                     // deleteDir() races with NFS's delayed unlink propagation on
                     // this workspace mount, so empty the directory in place
-                    // instead of removing and recreating it.
-                    sh 'find . -mindepth 1 -delete 2>/dev/null || true'
+                    // instead of removing and recreating it. Chown first so
+                    // root-owned leftovers are removable; .git pack files from
+                    // a prior stash are mode 0444 and block unstash overwrite.
                     sh 'sudo chown -R jenkins:jenkins . 2>/dev/null || true'
+                    sh 'find . -mindepth 1 -delete 2>/dev/null || true'
                     unstash 'src'
                     def imageName = vendor + '/' + distro
                     buildImage = docker.image(imageName)

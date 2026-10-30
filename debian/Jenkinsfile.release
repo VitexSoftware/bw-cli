@@ -56,7 +56,11 @@ distributions.each { distro ->
           ws('bw-cli-amd64-' + distroCode) {
             ansiColor('xterm') {
                 stage('Checkout ' + distroName) {
-                    sh 'sudo chown -R jenkins:jenkins . || true'
+                    // Stash includes .git pack files mode 0444; unstash cannot
+                    // overwrite them. Empty the workspace first (chown so
+                    // root-owned leftovers from docker builds are removable).
+                    sh 'sudo chown -R jenkins:jenkins . 2>/dev/null || true'
+                    sh 'find . -mindepth 1 -delete 2>/dev/null || true'
                     unstash 'src'
                     def imageName = vendor + '/' + imagePrefix + dist[0] + ':' + distroCode
                     buildImage = docker.image(imageName)
@@ -142,7 +146,11 @@ armDistributions.each { distro ->
           ws('bw-cli-arm64-' + distroCode) {
             ansiColor('xterm') {
                 stage('Checkout ' + distroName + ' arm64') {
-                    sh 'sudo chown -R jenkins:jenkins . || true'
+                    // Stash includes .git pack files mode 0444; unstash cannot
+                    // overwrite them. Empty the workspace first (chown so
+                    // root-owned leftovers from docker builds are removable).
+                    sh 'sudo chown -R jenkins:jenkins . 2>/dev/null || true'
+                    sh 'find . -mindepth 1 -delete 2>/dev/null || true'
                     unstash 'src'
                     def imageName = vendor + '/' + imagePrefix + dist[0] + ':' + distroCode
                     buildImage = docker.image(imageName)
